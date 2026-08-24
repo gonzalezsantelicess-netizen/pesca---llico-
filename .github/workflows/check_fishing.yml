@@ -1,0 +1,27 @@
+name: Revisar días ideales de pesca
+
+on:
+schedule:
+- cron: "0 11 * * *"
+workflow_dispatch: {}
+
+jobs:
+check:
+runs-on: ubuntu-latest
+steps:
+- name: Clonar repositorio
+uses: actions/checkout@v4
+
+- name: Configurar Python
+uses: actions/setup-python@v5
+with:
+python-version: "3.11"
+
+- name: Instalar dependencias
+run: pip install -r requirements.txt
+
+- name: Ejecutar revisión de pesca
+env:
+CALLMEBOT_PHONE: ${{ secrets.CALLMEBOT_PHONE }}
+CALLMEBOT_APIKEY: ${{ secrets.CALLMEBOT_APIKEY }}
+run: python check_fishing_days.py
